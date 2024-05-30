@@ -35,10 +35,10 @@ QUIVER_T = {
 		DeadZone = "死区",
 		ScareBeast = "恐吓野兽",
 		ScatterShot = "驱散射击",
-		Short = "短距离",
-		Long = "长距离",
+		Short = "近",
+		Long = "最远",
 		Mark = "猎人印记",
-		TooFar = "超出范围",
+		TooFar = "超出射击范围",
 	},
 	Spellbook = {
 		-- Aspect
@@ -98,5 +98,5 @@ QUIVER_T = {
 		TooltipMiss = "重置未命中消息为默认",
 	},
 	VersionAvailable = "新版本%s可在%s下载",
-	VersionSafeToUpdate = "升级Quiver总是安全的。你不会丢失任何配置。",
+	VersionSafeToUpdate = "升级Quiver总是安全的，你不会丢失任何配置。",
 }
