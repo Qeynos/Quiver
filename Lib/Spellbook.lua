@@ -2,7 +2,7 @@
 local HUNTER_CASTABLE_SHOTS = {
 	[QUIVER_T.Spellbook.Aimed_Shot] = 3.0,
 	[QUIVER_T.Spellbook.Multi_Shot] = 0.0,
-	[QUIVER_T.Spellbook.Trueshot] = 1.0,
+	[QUIVER_T.Spellbook.Trueshot] = 1.0
 }
 
 local _HUNTER_INSTANT_SHOTS = {
@@ -12,7 +12,7 @@ local _HUNTER_INSTANT_SHOTS = {
 	QUIVER_T.Spellbook.Scorpid_Sting,
 	QUIVER_T.Spellbook.Serpent_Sting,
 	QUIVER_T.Spellbook.Viper_Sting,
-	QUIVER_T.Spellbook.Wyvern_Sting,
+	QUIVER_T.Spellbook.Wyvern_Sting
 }
 
 local calcRangedWeaponSpeedBase = (function()
@@ -23,10 +23,11 @@ local calcRangedWeaponSpeedBase = (function()
 	return function()
 		local tooltip = resetTooltip()
 		tooltip:ClearLines()
-		tooltip:SetInventoryItem("player", 18)-- ranged weapon slot
+		tooltip:SetInventoryItem("player", 18)
+		-- ranged weapon slot
 
-		for i=1, tooltip:NumLines() do
-			local fs = _G["QuiverRangedWeaponScanningTooltipTextRight"..i]
+		for i = 1, tooltip:NumLines() do
+			local fs = _G["QuiverRangedWeaponScanningTooltipTextRight" .. i]
 			local text = fs and fs:GetText()
 			if text ~= nil then
 				local _, _, speed = string.find(text, "Speed (%d+%.%d+)")
@@ -43,17 +44,19 @@ end)()
 
 Quiver_Lib_Spellbook_CalcCastTime = function(spellName)
 	local baseTime = HUNTER_CASTABLE_SHOTS[spellName]
-	local _,_, msLatency = GetNetStats()
+	local _, _, msLatency = GetNetStats()
 	local startLocal = GetTime()
 	local startLatAdjusted = startLocal + msLatency / 1000
 
 	local speedCurrent = UnitRangedDamage("player")
 	local speedBase = calcRangedWeaponSpeedBase()
-	local speedMultiplier = speedCurrent / speedBase
+	if speedBase ~= nil and speedCurrent ~= nil then
+		local speedMultiplier = speedCurrent / speedBase
 
-	-- https://www.mmo-champion.com/content/2188-Patch-4-0-6-Feb-22-Hotfixes-Blue-Posts-Artworks-Comic
-	local casttime = 0.5 + baseTime * speedMultiplier
-	return casttime, startLatAdjusted, startLocal
+		-- https://www.mmo-champion.com/content/2188-Patch-4-0-6-Feb-22-Hotfixes-Blue-Posts-Artworks-Comic
+		local casttime = 0.5 + baseTime * speedMultiplier
+		return casttime, startLatAdjusted, startLocal
+	end
 end
 
 local GetIsSpellLearned = function(spellName)
@@ -61,8 +64,10 @@ local GetIsSpellLearned = function(spellName)
 	while true do
 		i = i + 1
 		local name, _rank = GetSpellName(i, BOOKTYPE_SPELL)
-		if not name then return false
-		elseif name == spellName then return true
+		if not name then
+			return false
+		elseif name == spellName then
+			return true
 		end
 	end
 end
@@ -80,7 +85,9 @@ local GetSpellNameFromTexture = function(textureSeek)
 		i = i + 1
 		local name, _rank = GetSpellName(i, BOOKTYPE_SPELL)
 		local texture = GetSpellTexture(i, BOOKTYPE_SPELL)
-		if not name then return nil end
+		if not name then
+			return nil
+		end
 		if texture == textureSeek then
 			cacheTextureName[textureSeek] = name
 			return name
@@ -100,7 +107,9 @@ Quiver_Lib_Spellbook_TryFindTexture = function(nameSeek)
 		i = i + 1
 		local name, _rank = GetSpellName(i, BOOKTYPE_SPELL)
 		local texture = GetSpellTexture(i, BOOKTYPE_SPELL)
-		if not name then return nil end
+		if not name then
+			return nil
+		end
 		if name == nameSeek then
 			cacheNameTexture[nameSeek] = texture
 			return texture
@@ -110,13 +119,17 @@ end
 
 Quiver_Lib_Spellbook_GetIsSpellCastableShot = function(spellName)
 	for name, _castTime in HUNTER_CASTABLE_SHOTS do
-		if spellName == name then return true end
+		if spellName == name then
+			return true
+		end
 	end
 	return false
 end
 Quiver_Lib_Spellbook_GetIsSpellInstantShot = function(spellName)
 	for _index, name in _HUNTER_INSTANT_SHOTS do
-		if spellName == name then return true end
+		if spellName == name then
+			return true
+		end
 	end
 	return false
 end
@@ -127,9 +140,9 @@ local getSpellIndexByName = function(spellName)
 	local _schoolName, _schoolIcon, indexOffset, numEntries = GetSpellTabInfo(GetNumSpellTabs())
 	local numSpells = indexOffset + numEntries
 	local offset = 0
-	for spellIndex=numSpells, offset+1, -1 do
+	for spellIndex = numSpells, offset + 1, -1 do
 		if GetSpellName(spellIndex, BOOKTYPE_SPELL) == spellName then
-			return spellIndex;
+			return spellIndex
 		end
 	end
 	return nil
@@ -153,9 +166,9 @@ local CheckNewGCD = function(lastCdStart)
 end
 
 Quiver_Lib_Spellbook = {
-	CheckNewCd=CheckNewCd,
-	CheckNewGCD=CheckNewGCD,
+	CheckNewCd = CheckNewCd,
+	CheckNewGCD = CheckNewGCD,
 	GetIsSpellLearned = GetIsSpellLearned,
-	GetSpellNameFromTexture=GetSpellNameFromTexture,
-	HUNTER_CASTABLE_SHOTS=HUNTER_CASTABLE_SHOTS,
+	GetSpellNameFromTexture = GetSpellNameFromTexture,
+	HUNTER_CASTABLE_SHOTS = HUNTER_CASTABLE_SHOTS
 }
