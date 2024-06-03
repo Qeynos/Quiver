@@ -101,15 +101,17 @@ end
 
 -- ************ Frame Update Handlers ************
 local handleUpdate = function()
-	local timePassed = GetTime() - timeStartCasting
-	if not isCasting then
-		frame.Castbar:SetWidth(1)
-	elseif timePassed <= castTime then
-		displayTime(timePassed)
-		frame.Castbar:SetWidth(maxBarWidth * timePassed / castTime)
-	else
-		displayTime(castTime)
-		frame.Castbar:SetWidth(maxBarWidth)
+	if timeStartCasting then
+		local timePassed = GetTime() - timeStartCasting
+		if not isCasting then
+			frame.Castbar:SetWidth(1)
+		elseif timePassed <= castTime then
+			displayTime(timePassed)
+			frame.Castbar:SetWidth(maxBarWidth * timePassed / castTime)
+		else
+			displayTime(castTime)
+			frame.Castbar:SetWidth(maxBarWidth)
+		end
 	end
 end
 
