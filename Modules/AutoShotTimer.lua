@@ -373,9 +373,9 @@ local onEnable = function()
 		SLASH_QQAIMEDSHOT1 = "/qqaimedshot"
 		SLASH_QQMULTISHOT1 = "/qqmultishot"
 		SLASH_QQTRUESHOT1 = "/qqtrueshot"
-		SlashCmdList["QQAIMEDSHOT"] = castNoClip("Aimed Shot")
-		SlashCmdList["QQMULTISHOT"] = castNoClip("Multi-Shot")
-		SlashCmdList["QQTRUESHOT"] = castNoClip("Trueshot")
+		SlashCmdList["QQAIMEDSHOT"] = castNoClip(Aimed_Shot)
+		SlashCmdList["QQMULTISHOT"] = castNoClip(Multi_Shot)
+		SlashCmdList["QQTRUESHOT"] = castNoClip(Trueshot)
 	end
 	frame:SetScript("OnEvent", handleEvent)
 	frame:SetScript("OnUpdate", handleUpdate)
