@@ -83,7 +83,7 @@ end
 -- ************ Custom Event Handlers ************
 local displayTime = function(current)
 	if current < 0 then current = 0 end
-	frame.SpellTime:SetText(string.format("%.1f / %.2f", current, castTime))
+	if current and castTime then frame.SpellTime:SetText(string.format("%.1f / %.2f", current, castTime)) end --添加预先判断屏蔽错误
 end
 local onSpellcast = function(spellName)
 	if isCasting then return end

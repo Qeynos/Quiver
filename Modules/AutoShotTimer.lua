@@ -241,12 +241,14 @@ local handleEventStateCasting = function(event, arg1)
 		-- The fastest possible cast (multi-shot) takes 0.5 seconds,
 		-- so we can use any number between that and zero.
 		-- For case 2, wait for the stop / fail event.
-		local elapsed = GetTime() - timeStartCastLocal
-		log(elapsed)
-		if (elapsed < 0.4) then
-			-- We must have started the cast exactly as an auto shot fired.
-			-- This happens when server lag causes the bar the skip.
-			startReloading(GetTime())
+		if timeStartCastLocal then --添加预先判断屏蔽错误
+			local elapsed = GetTime() - timeStartCastLocal
+			log(elapsed)
+			if (elapsed < 0.4) then
+				-- We must have started the cast exactly as an auto shot fired.
+				-- This happens when server lag causes the bar the skip.
+				startReloading(GetTime())
+			end
 		end
 	end
 end
