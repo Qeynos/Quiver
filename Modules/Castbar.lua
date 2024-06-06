@@ -118,7 +118,7 @@ end
 -- ************ Event Handlers ************
 local handleEvent = function()
 	if event == "SPELLCAST_DELAYED" then
-		castTime = castTime + arg1 / 1000
+		if castTime and arg1 then castTime = castTime + arg1 / 1000 end
 	else
 		isCasting = false
 		if Quiver_Store.IsLockedFrames then frame:Hide() end
