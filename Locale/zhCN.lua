@@ -38,7 +38,7 @@ QUIVER_T = {
 		Short = "近",
 		Long = "最远",
 		Mark = "猎人印记",
-		TooFar = "超出射击范围",
+		TooFar = "超过最大距离",
 	},
 	Spellbook = {
 		-- Aspect
